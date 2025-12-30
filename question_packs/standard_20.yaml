@@ -1,0 +1,192 @@
+name: "Standard Assessment (20 Questions)"
+description: "Comprehensive 20-question assessment covering all major security domains"
+version: "1.0"
+domains:
+  - name: "Device Security"
+    questions:
+      - id: "dev_01"
+        text: "Are OT devices air-gapped or micro-segmented from the corporate network?"
+        weight: 10
+        risk_if_no: "HIGH"
+        recommendation: "Implement network segmentation or air-gapping for critical OT devices"
+        compliance_refs:
+          hipaa: ["164.312(a)(1)"]
+          nist_csf: ["PR.AC-5"]
+          
+      - id: "dev_02"
+        text: "Is firmware on medical devices digitally signed and verified?"
+        weight: 9
+        risk_if_no: "HIGH"
+        recommendation: "Require digitally signed firmware and implement verification processes"
+        compliance_refs:
+          fda: ["premarket", "postmarket"]
+          
+      - id: "dev_03"
+        text: "Do you have Multi-Factor Authentication (MFA) on all OT device access?"
+        weight: 8
+        risk_if_no: "CRITICAL"
+        recommendation: "Deploy MFA across all OT device access points immediately"
+        compliance_refs:
+          hipaa: ["164.312(a)(2)(i)"]
+          
+      - id: "dev_04"
+        text: "Are device inventories automatically tracked and updated?"
+        weight: 7
+        risk_if_no: "MEDIUM"
+        recommendation: "Implement automated asset discovery and inventory management"
+        compliance_refs:
+          hipaa: ["164.310(d)(1)"]
+          
+      - id: "dev_05"
+        text: "Do you have documented change management for OT device configurations?"
+        weight: 7
+        risk_if_no: "MEDIUM"
+        recommendation: "Establish formal change management process with approval workflows and rollback procedures"
+        compliance_refs:
+          hipaa: ["164.308(a)(8)"]
+          gxp: ["change control"]
+          
+      - id: "dev_06"
+        text: "Are vulnerabilities in medical devices actively monitored and patched?"
+        weight: 9
+        risk_if_no: "HIGH"
+        recommendation: "Subscribe to vendor security bulletins and FDA safety communications; establish patching SLAs"
+        compliance_refs:
+          fda: ["postmarket"]
+          nist_csf: ["DE.CM-8"]
+
+  - name: "Data Integrity"
+    questions:
+      - id: "data_01"
+        text: "Is patient data encrypted at rest and in transit?"
+        weight: 10
+        risk_if_no: "CRITICAL"
+        recommendation: "Implement encryption for all patient data using FIPS 140-2 validated modules"
+        compliance_refs:
+          hipaa: ["164.312(a)(2)(iv)", "164.312(e)(1)"]
+          
+      - id: "data_02"
+        text: "Do you use an immutable ledger or blockchain for audit logs?"
+        weight: 8
+        risk_if_no: "HIGH"
+        recommendation: "Deploy tamper-proof audit logging using immutable storage"
+        compliance_refs:
+          hipaa: ["164.312(b)"]
+          gxp: ["ALCOA+", "audit trail"]
+          
+      - id: "data_03"
+        text: "Are data backups tested regularly and stored offline?"
+        weight: 9
+        risk_if_no: "HIGH"
+        recommendation: "Establish backup testing schedule and maintain offline copies"
+        compliance_refs:
+          hipaa: ["164.308(a)(7)(ii)(A)"]
+          
+      - id: "data_04"
+        text: "Do you have data loss prevention (DLP) controls in place?"
+        weight: 8
+        risk_if_no: "HIGH"
+        recommendation: "Deploy DLP solutions to detect and prevent unauthorized data exfiltration"
+        compliance_refs:
+          hipaa: ["164.312(a)(1)"]
+          nist_csf: ["PR.DS-5"]
+          
+      - id: "data_05"
+        text: "Are access controls role-based with least privilege enforcement?"
+        weight: 9
+        risk_if_no: "HIGH"
+        recommendation: "Implement RBAC with regular access reviews and principle of least privilege"
+        compliance_refs:
+          hipaa: ["164.308(a)(4)"]
+          nist_csf: ["PR.AC-4"]
+          
+      - id: "data_06"
+        text: "Do you maintain data lineage and provenance tracking?"
+        weight: 7
+        risk_if_no: "MEDIUM"
+        recommendation: "Implement data lineage tracking to ensure traceability from source to destination"
+        compliance_refs:
+          gxp: ["data integrity", "ALCOA+"]
+          nist_csf: ["PR.DS-6"]
+          
+      - id: "data_07"
+        text: "Are audit logs reviewed regularly for suspicious activity?"
+        weight: 8
+        risk_if_no: "HIGH"
+        recommendation: "Establish log review procedures with automated alerting for anomalies"
+        compliance_refs:
+          hipaa: ["164.308(a)(1)(ii)(D)"]
+          nist_csf: ["DE.AE-3"]
+
+  - name: "AI Governance"
+    questions:
+      - id: "ai_01"
+        text: "Is there a human-in-the-loop process for AI-driven diagnoses?"
+        weight: 10
+        risk_if_no: "CRITICAL"
+        recommendation: "Implement mandatory human review for all AI-generated clinical decisions"
+        compliance_refs:
+          fda: ["premarket", "postmarket"]
+          
+      - id: "ai_02"
+        text: "Do you actively monitor and track AI model drift?"
+        weight: 8
+        risk_if_no: "HIGH"
+        recommendation: "Deploy continuous model performance monitoring"
+        compliance_refs:
+          fda: ["postmarket"]
+          
+      - id: "ai_03"
+        text: "Are AI models validated against HIPAA/FDA compliance requirements?"
+        weight: 9
+        risk_if_no: "CRITICAL"
+        recommendation: "Conduct comprehensive compliance validation for all AI systems"
+        compliance_refs:
+          hipaa: ["164.308(a)(8)"]
+          fda: ["premarket"]
+          
+      - id: "ai_04"
+        text: "Do you maintain documentation of AI training data sources and quality?"
+        weight: 8
+        risk_if_no: "HIGH"
+        recommendation: "Document all training data sources, preprocessing steps, and quality metrics"
+        compliance_refs:
+          fda: ["premarket"]
+          gxp: ["data integrity"]
+          
+      - id: "ai_05"
+        text: "Is there a process for explainability/interpretability of AI decisions?"
+        weight: 7
+        risk_if_no: "MEDIUM"
+        recommendation: "Implement explainable AI techniques to support clinical decision transparency"
+        compliance_refs:
+          fda: ["premarket", "postmarket"]
+          
+      - id: "ai_06"
+        text: "Do you have bias testing and mitigation strategies for AI models?"
+        weight: 8
+        risk_if_no: "HIGH"
+        recommendation: "Conduct regular bias audits and implement mitigation strategies for identified disparities"
+        compliance_refs:
+          fda: ["premarket", "postmarket"]
+          
+  - name: "Incident Response"
+    questions:
+      - id: "ir_01"
+        text: "Do you have a documented incident response plan specific to healthcare?"
+        weight: 9
+        risk_if_no: "HIGH"
+        recommendation: "Develop healthcare-specific incident response procedures addressing patient safety and regulatory notification"
+        compliance_refs:
+          hipaa: ["164.308(a)(6)"]
+          nist_csf: ["RS.CO-1"]
+          
+      - id: "ir_02"
+        text: "Are incident response drills conducted at least annually?"
+        weight: 7
+        risk_if_no: "MEDIUM"
+        recommendation: "Schedule regular tabletop exercises and simulations for breach scenarios"
+        compliance_refs:
+          hipaa: ["164.308(a)(2)"]
+          nist_csf: ["RS.CO-3"]
+

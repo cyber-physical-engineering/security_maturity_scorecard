@@ -1,0 +1,130 @@
+name: "HIPAA Compliance Focus (15 Questions)"
+description: "HIPAA-specific security controls assessment"
+version: "1.0"
+domains:
+  - name: "Administrative Safeguards"
+    questions:
+      - id: "admin_01"
+        text: "Do you have a designated Security Officer responsible for HIPAA compliance?"
+        weight: 9
+        risk_if_no: "CRITICAL"
+        recommendation: "Appoint a Security Officer with clear authority and responsibilities per HIPAA requirements"
+        compliance_refs:
+          hipaa: ["164.308(a)(2)"]
+          
+      - id: "admin_02"
+        text: "Are workforce members trained on HIPAA Security Rule annually?"
+        weight: 8
+        risk_if_no: "HIGH"
+        recommendation: "Implement annual HIPAA training program with completion tracking and testing"
+        compliance_refs:
+          hipaa: ["164.308(a)(5)"]
+          
+      - id: "admin_03"
+        text: "Do you conduct regular security risk assessments?"
+        weight: 10
+        risk_if_no: "CRITICAL"
+        recommendation: "Perform comprehensive risk assessments at least annually and after significant changes"
+        compliance_refs:
+          hipaa: ["164.308(a)(1)(ii)(A)"]
+          
+      - id: "admin_04"
+        text: "Are Business Associate Agreements (BAAs) in place with all vendors?"
+        weight: 9
+        risk_if_no: "CRITICAL"
+        recommendation: "Execute BAAs with all third parties who access PHI before any data sharing"
+        compliance_refs:
+          hipaa: ["164.308(b)(1)"]
+          
+      - id: "admin_05"
+        text: "Do you have documented sanctions policy for security violations?"
+        weight: 7
+        risk_if_no: "MEDIUM"
+        recommendation: "Establish and enforce sanctions policy for workforce members who violate security policies"
+        compliance_refs:
+          hipaa: ["164.308(a)(1)(ii)(C)"]
+
+  - name: "Physical Safeguards"
+    questions:
+      - id: "phys_01"
+        text: "Are facility access controls in place to limit physical access to PHI?"
+        weight: 8
+        risk_if_no: "HIGH"
+        recommendation: "Implement badge access, visitor logs, and secure areas for systems containing PHI"
+        compliance_refs:
+          hipaa: ["164.310(a)(1)"]
+          
+      - id: "phys_02"
+        text: "Are workstations positioned to prevent unauthorized viewing of PHI?"
+        weight: 6
+        risk_if_no: "MEDIUM"
+        recommendation: "Position screens away from public view and implement privacy filters where needed"
+        compliance_refs:
+          hipaa: ["164.310(b)"]
+          
+      - id: "phys_03"
+        text: "Do you have policies for secure disposal of devices containing PHI?"
+        weight: 8
+        risk_if_no: "HIGH"
+        recommendation: "Implement sanitization procedures including degaussing, shredding, or certified destruction"
+        compliance_refs:
+          hipaa: ["164.310(d)(2)"]
+          
+      - id: "phys_04"
+        text: "Are data center environments monitored with surveillance and alarms?"
+        weight: 7
+        risk_if_no: "MEDIUM"
+        recommendation: "Deploy video surveillance, intrusion detection, and environmental monitoring"
+        compliance_refs:
+          hipaa: ["164.310(a)(2)(ii)"]
+
+  - name: "Technical Safeguards"
+    questions:
+      - id: "tech_01"
+        text: "Do you have unique user IDs and authentication for all users accessing PHI?"
+        weight: 10
+        risk_if_no: "CRITICAL"
+        recommendation: "Assign unique usernames and implement strong authentication mechanisms"
+        compliance_refs:
+          hipaa: ["164.312(a)(2)(i)"]
+          
+      - id: "tech_02"
+        text: "Are automatic logoff mechanisms in place for inactive sessions?"
+        weight: 7
+        risk_if_no: "MEDIUM"
+        recommendation: "Configure automatic session timeouts for systems accessing PHI"
+        compliance_refs:
+          hipaa: ["164.312(a)(2)(iii)"]
+          
+      - id: "tech_03"
+        text: "Is audit log review performed regularly to detect unauthorized access?"
+        weight: 9
+        risk_if_no: "HIGH"
+        recommendation: "Establish routine audit log review procedures with documented findings"
+        compliance_refs:
+          hipaa: ["164.312(b)"]
+          
+      - id: "tech_04"
+        text: "Are integrity controls in place to prevent improper PHI alteration?"
+        weight: 8
+        risk_if_no: "HIGH"
+        recommendation: "Implement checksums, version control, and audit trails for PHI modifications"
+        compliance_refs:
+          hipaa: ["164.312(c)(1)"]
+          
+      - id: "tech_05"
+        text: "Do you have documented procedures for emergency access to PHI?"
+        weight: 7
+        risk_if_no: "MEDIUM"
+        recommendation: "Establish break-glass procedures with logging and review for emergency access"
+        compliance_refs:
+          hipaa: ["164.312(a)(2)(ii)"]
+          
+      - id: "tech_06"
+        text: "Is transmission security implemented for all PHI sent over networks?"
+        weight: 10
+        risk_if_no: "CRITICAL"
+        recommendation: "Use TLS 1.2+ for all PHI transmissions and implement VPNs where appropriate"
+        compliance_refs:
+          hipaa: ["164.312(e)(1)"]
+

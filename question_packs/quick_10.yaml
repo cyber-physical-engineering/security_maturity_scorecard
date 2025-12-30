@@ -1,0 +1,104 @@
+name: "Quick Assessment (10 Questions)"
+description: "Fast 10-question assessment covering critical security controls"
+version: "1.0"
+domains:
+  - name: "Device Security"
+    questions:
+      - id: "dev_01"
+        text: "Are OT devices air-gapped or micro-segmented from the corporate network?"
+        weight: 10
+        risk_if_no: "HIGH"
+        recommendation: "Implement network segmentation or air-gapping for critical OT devices to prevent lateral movement in case of breach"
+        compliance_refs:
+          hipaa: ["164.312(a)(1)"]
+          nist_csf: ["PR.AC-5"]
+          fda: ["postmarket"]
+        
+      - id: "dev_02"
+        text: "Is firmware on medical devices digitally signed and verified?"
+        weight: 9
+        risk_if_no: "HIGH"
+        recommendation: "Require digitally signed firmware and implement verification processes to prevent malicious firmware injection"
+        compliance_refs:
+          fda: ["premarket", "postmarket"]
+          nist_csf: ["PR.DS-6"]
+          
+      - id: "dev_03"
+        text: "Do you have Multi-Factor Authentication (MFA) on all OT device access?"
+        weight: 8
+        risk_if_no: "CRITICAL"
+        recommendation: "Deploy MFA across all OT device access points immediately to prevent credential-based attacks"
+        compliance_refs:
+          hipaa: ["164.312(a)(2)(i)"]
+          nist_csf: ["PR.AC-7"]
+          
+      - id: "dev_04"
+        text: "Are device inventories automatically tracked and updated?"
+        weight: 7
+        risk_if_no: "MEDIUM"
+        recommendation: "Implement automated asset discovery and inventory management to maintain visibility of all connected devices"
+        compliance_refs:
+          hipaa: ["164.310(d)(1)"]
+          nist_csf: ["ID.AM-1"]
+
+  - name: "Data Integrity"
+    questions:
+      - id: "data_01"
+        text: "Is patient data encrypted at rest and in transit?"
+        weight: 10
+        risk_if_no: "CRITICAL"
+        recommendation: "Implement encryption for all patient data storage and transmission using FIPS 140-2 validated cryptographic modules"
+        compliance_refs:
+          hipaa: ["164.312(a)(2)(iv)", "164.312(e)(1)"]
+          nist_csf: ["PR.DS-1", "PR.DS-2"]
+          gxp: ["data integrity"]
+          
+      - id: "data_02"
+        text: "Do you use an immutable ledger or blockchain for audit logs?"
+        weight: 8
+        risk_if_no: "HIGH"
+        recommendation: "Deploy tamper-proof audit logging using immutable storage or distributed ledger technology"
+        compliance_refs:
+          hipaa: ["164.312(b)"]
+          gxp: ["ALCOA+", "audit trail"]
+          fda: ["postmarket"]
+          
+      - id: "data_03"
+        text: "Are data backups tested regularly and stored offline?"
+        weight: 9
+        risk_if_no: "HIGH"
+        recommendation: "Establish regular backup testing schedule and maintain offline/air-gapped backup copies for ransomware resilience"
+        compliance_refs:
+          hipaa: ["164.308(a)(7)(ii)(A)"]
+          nist_csf: ["PR.IP-4"]
+
+  - name: "AI Governance"
+    questions:
+      - id: "ai_01"
+        text: "Is there a human-in-the-loop process for AI-driven diagnoses?"
+        weight: 10
+        risk_if_no: "CRITICAL"
+        recommendation: "Implement mandatory human review and approval workflows for all AI-generated clinical decisions"
+        compliance_refs:
+          fda: ["premarket", "postmarket"]
+          nist_csf: ["PR.IP-12"]
+          
+      - id: "ai_02"
+        text: "Do you actively monitor and track AI model drift?"
+        weight: 8
+        risk_if_no: "HIGH"
+        recommendation: "Deploy continuous model performance monitoring and establish thresholds for retraining or deactivation"
+        compliance_refs:
+          fda: ["postmarket"]
+          nist_csf: ["DE.CM-8"]
+          
+      - id: "ai_03"
+        text: "Are AI models validated against HIPAA/FDA compliance requirements?"
+        weight: 9
+        risk_if_no: "CRITICAL"
+        recommendation: "Conduct comprehensive compliance validation for all AI systems before deployment and after major updates"
+        compliance_refs:
+          hipaa: ["164.308(a)(8)"]
+          fda: ["premarket", "postmarket"]
+          gxp: ["validation"]
+

@@ -1,0 +1,505 @@
+name: "Trust Stack Assessment (50 Questions)"
+description: "Healthcare cybersecurity maturity mapped to the HealthSec Trust Stack: Secure, Control, Comply, Verify, Prove"
+version: "2.0"
+trust_stack_framework: true
+domains:
+  - name: "Secure"
+    description: "Protect assets with technical safeguards"
+    questions:
+      - id: "sec_01"
+        text: "Is network segmentation implemented to isolate OT/IoT medical devices from IT networks?"
+        weight: 10
+        risk_if_no: "CRITICAL"
+        trust_stack: "Secure"
+        recommendation: "Implement micro-segmentation using VLANs, firewalls, or SDN to prevent lateral movement"
+        compliance_refs:
+          hipaa: ["164.312(a)(1)"]
+          nist_csf: ["PR.AC-5"]
+          
+      - id: "sec_02"
+        text: "Is PHI/ePHI encrypted at rest using FIPS 140-2 validated cryptographic modules?"
+        weight: 10
+        risk_if_no: "CRITICAL"
+        trust_stack: "Secure"
+        recommendation: "Deploy full-disk encryption or database-level encryption with FIPS 140-2 Level 2+ modules"
+        compliance_refs:
+          hipaa: ["164.312(a)(2)(iv)"]
+          nist_csf: ["PR.DS-1"]
+          
+      - id: "sec_03"
+        text: "Is PHI encrypted in transit using TLS 1.2 or higher for all network communications?"
+        weight: 10
+        risk_if_no: "CRITICAL"
+        trust_stack: "Secure"
+        recommendation: "Enforce TLS 1.3 for all PHI transmissions; disable legacy protocols"
+        compliance_refs:
+          hipaa: ["164.312(e)(1)"]
+          nist_csf: ["PR.DS-2"]
+          
+      - id: "sec_04"
+        text: "Are default passwords changed on all medical devices and IoT sensors before deployment?"
+        weight: 10
+        risk_if_no: "CRITICAL"
+        trust_stack: "Secure"
+        recommendation: "Mandate unique strong passwords or certificate-based authentication"
+        compliance_refs:
+          hipaa: ["164.308(a)(5)(ii)(D)"]
+          fda: ["premarket"]
+          
+      - id: "sec_05"
+        text: "Are wireless networks (Wi-Fi) secured with WPA3 encryption and certificate-based authentication?"
+        weight: 8
+        risk_if_no: "HIGH"
+        trust_stack: "Secure"
+        recommendation: "Upgrade to WPA3-Enterprise with 802.1X authentication"
+        compliance_refs:
+          hipaa: ["164.312(e)(1)"]
+          nist_csf: ["PR.AC-3"]
+          
+      - id: "sec_06"
+        text: "Is Zero Trust Network Access (ZTNA) implemented for remote access to clinical systems?"
+        weight: 9
+        risk_if_no: "HIGH"
+        trust_stack: "Secure"
+        recommendation: "Replace VPNs with ZTNA requiring continuous authentication"
+        compliance_refs:
+          hipaa: ["164.312(a)(2)(i)"]
+          nist_csf: ["PR.AC-7"]
+          
+      - id: "sec_07"
+        text: "Are backups encrypted, tested monthly, and stored in immutable/offline storage?"
+        weight: 10
+        risk_if_no: "CRITICAL"
+        trust_stack: "Secure"
+        recommendation: "Implement 3-2-1 backup rule with immutable storage and monthly testing"
+        compliance_refs:
+          hipaa: ["164.308(a)(7)(ii)(A)"]
+          nist_csf: ["PR.IP-4"]
+          
+      - id: "sec_08"
+        text: "Is data loss prevention (DLP) deployed to detect and block unauthorized PHI exfiltration?"
+        weight: 9
+        risk_if_no: "HIGH"
+        trust_stack: "Secure"
+        recommendation: "Implement DLP on endpoints, network, and cloud"
+        compliance_refs:
+          hipaa: ["164.312(a)(1)"]
+          nist_csf: ["PR.DS-5"]
+          
+      - id: "sec_09"
+        text: "Is firmware on medical devices digitally signed and verified?"
+        weight: 9
+        risk_if_no: "HIGH"
+        trust_stack: "Secure"
+        recommendation: "Implement digital signature verification for all firmware updates"
+        compliance_refs:
+          fda: ["premarket", "postmarket"]
+          nist_csf: ["PR.DS-6"]
+          
+      - id: "sec_10"
+        text: "Are encryption keys managed in a Hardware Security Module (HSM) or cloud KMS?"
+        weight: 9
+        risk_if_no: "HIGH"
+        trust_stack: "Secure"
+        recommendation: "Use FIPS 140-2 Level 3 HSM or cloud KMS with role separation"
+        compliance_refs:
+          hipaa: ["164.312(a)(2)(iv)"]
+          nist_csf: ["PR.DS-1"]
+
+  - name: "Control"
+    description: "Manage access and asset visibility"
+    questions:
+      - id: "ctl_01"
+        text: "Is Multi-Factor Authentication (MFA) required for all access to systems containing PHI?"
+        weight: 10
+        risk_if_no: "CRITICAL"
+        trust_stack: "Control"
+        recommendation: "Deploy phishing-resistant MFA (FIDO2, PIV cards) for all PHI access"
+        compliance_refs:
+          hipaa: ["164.312(a)(2)(i)"]
+          nist_csf: ["PR.AC-7"]
+          
+      - id: "ctl_02"
+        text: "Is a complete inventory maintained of all connected medical devices (IoMT) with vulnerability status?"
+        weight: 10
+        risk_if_no: "CRITICAL"
+        trust_stack: "Control"
+        recommendation: "Deploy automated medical device discovery and vulnerability monitoring"
+        compliance_refs:
+          fda: ["postmarket"]
+          nist_csf: ["ID.AM-1"]
+          
+      - id: "ctl_03"
+        text: "Is Role-Based Access Control (RBAC) implemented with least privilege principle?"
+        weight: 9
+        risk_if_no: "HIGH"
+        trust_stack: "Control"
+        recommendation: "Define roles by job function; review access quarterly"
+        compliance_refs:
+          hipaa: ["164.308(a)(4)"]
+          nist_csf: ["PR.AC-4"]
+          
+      - id: "ctl_04"
+        text: "Are privileged accounts managed through Privileged Access Management (PAM) solution?"
+        weight: 9
+        risk_if_no: "HIGH"
+        trust_stack: "Control"
+        recommendation: "Deploy PAM with session recording and just-in-time access"
+        compliance_refs:
+          hipaa: ["164.308(a)(3)(ii)(B)"]
+          nist_csf: ["PR.AC-4"]
+          
+      - id: "ctl_05"
+        text: "Are user access reviews conducted at least quarterly with documented approvals?"
+        weight: 8
+        risk_if_no: "HIGH"
+        trust_stack: "Control"
+        recommendation: "Automate quarterly access certification with auto-revocation"
+        compliance_refs:
+          hipaa: ["164.308(a)(3)(ii)(C)"]
+          nist_csf: ["PR.AC-4"]
+          
+      - id: "ctl_06"
+        text: "Are medical devices patched within 30 days of critical security updates?"
+        weight: 10
+        risk_if_no: "CRITICAL"
+        trust_stack: "Control"
+        recommendation: "Establish patch management SLAs with compensating controls when patching impossible"
+        compliance_refs:
+          fda: ["postmarket"]
+          hipaa: ["164.308(a)(5)(ii)(B)"]
+          
+      - id: "ctl_07"
+        text: "Is network traffic from IoMT devices continuously monitored for anomalous behavior?"
+        weight: 9
+        risk_if_no: "HIGH"
+        trust_stack: "Control"
+        recommendation: "Deploy IoMT-specific network behavior analytics"
+        compliance_refs:
+          nist_csf: ["DE.CM-7"]
+          fda: ["postmarket"]
+          
+      - id: "ctl_08"
+        text: "Is Single Sign-On (SSO) with SAML 2.0 or OIDC implemented for clinical applications?"
+        weight: 7
+        risk_if_no: "MEDIUM"
+        trust_stack: "Control"
+        recommendation: "Centralize authentication via SSO to improve audit trails"
+        compliance_refs:
+          hipaa: ["164.312(a)(2)(i)"]
+          nist_csf: ["PR.AC-1"]
+          
+      - id: "ctl_09"
+        text: "Are vendor cybersecurity assessments conducted before contract execution?"
+        weight: 9
+        risk_if_no: "HIGH"
+        trust_stack: "Control"
+        recommendation: "Require vendor security questionnaires and SOC 2 reports before PHI access"
+        compliance_refs:
+          hipaa: ["164.308(b)(1)"]
+          nist_csf: ["ID.SC-2"]
+          
+      - id: "ctl_10"
+        text: "Is continuous monitoring of vendor security posture performed annually?"
+        weight: 8
+        risk_if_no: "HIGH"
+        trust_stack: "Control"
+        recommendation: "Use third-party risk platforms and review SOC 2 reports annually"
+        compliance_refs:
+          hipaa: ["164.308(b)(3)"]
+          nist_csf: ["ID.SC-4"]
+
+  - name: "Comply"
+    description: "Meet regulatory and policy requirements"
+    questions:
+      - id: "cmp_01"
+        text: "Is a comprehensive risk assessment conducted at least annually per HIPAA Security Rule?"
+        weight: 10
+        risk_if_no: "CRITICAL"
+        trust_stack: "Comply"
+        recommendation: "Perform annual risk assessments using SRA Tool; document remediation plans"
+        compliance_refs:
+          hipaa: ["164.308(a)(1)(ii)(A)"]
+          
+      - id: "cmp_02"
+        text: "Are Business Associate Agreements (BAAs) in place with all vendors accessing PHI?"
+        weight: 10
+        risk_if_no: "CRITICAL"
+        trust_stack: "Comply"
+        recommendation: "Execute BAAs before any PHI disclosure; review annually"
+        compliance_refs:
+          hipaa: ["164.308(b)(1)", "164.314(a)"]
+          
+      - id: "cmp_03"
+        text: "Is HIPAA Security Awareness training provided to all workforce members annually?"
+        weight: 9
+        risk_if_no: "HIGH"
+        trust_stack: "Comply"
+        recommendation: "Deliver role-based training with completion tracking"
+        compliance_refs:
+          hipaa: ["164.308(a)(5)"]
+          
+      - id: "cmp_04"
+        text: "Are Breach Notification procedures documented and tested for 60-day HHS reporting?"
+        weight: 9
+        risk_if_no: "HIGH"
+        trust_stack: "Comply"
+        recommendation: "Document breach notification workflows; conduct tabletop exercises"
+        compliance_refs:
+          hipaa: ["164.308(a)(6)", "164.400-414"]
+          
+      - id: "cmp_05"
+        text: "Is a designated HIPAA Security Officer with documented responsibilities appointed?"
+        weight: 9
+        risk_if_no: "HIGH"
+        trust_stack: "Comply"
+        recommendation: "Appoint qualified Security Officer with budget and authority"
+        compliance_refs:
+          hipaa: ["164.308(a)(2)"]
+          
+      - id: "cmp_06"
+        text: "Is cybersecurity documentation maintained per FDA premarket guidance (2014/2023)?"
+        weight: 10
+        risk_if_no: "CRITICAL"
+        trust_stack: "Comply"
+        recommendation: "Prepare CBOM, threat model, and security architecture per FDA guidance"
+        compliance_refs:
+          fda: ["premarket"]
+          
+      - id: "cmp_07"
+        text: "Is a Software Bill of Materials (SBOM) maintained for all medical device software?"
+        weight: 9
+        risk_if_no: "HIGH"
+        trust_stack: "Comply"
+        recommendation: "Generate SPDX or CycloneDX SBOMs; track vulnerabilities"
+        compliance_refs:
+          fda: ["premarket", "postmarket"]
+          
+      - id: "cmp_08"
+        text: "Is threat modeling conducted using recognized methodology (STRIDE, PASTA)?"
+        weight: 9
+        risk_if_no: "HIGH"
+        trust_stack: "Comply"
+        recommendation: "Perform threat modeling; document mitigations in FDA submission"
+        compliance_refs:
+          fda: ["premarket"]
+          nist_csf: ["ID.RA-1"]
+          
+      - id: "cmp_09"
+        text: "Are sanctions policies enforced for workforce members violating security policies?"
+        weight: 8
+        risk_if_no: "HIGH"
+        trust_stack: "Comply"
+        recommendation: "Document progressive discipline policy; maintain records"
+        compliance_refs:
+          hipaa: ["164.308(a)(1)(ii)(C)"]
+          
+      - id: "cmp_10"
+        text: "Are AI models validated against HIPAA/FDA compliance requirements?"
+        weight: 9
+        risk_if_no: "CRITICAL"
+        trust_stack: "Comply"
+        recommendation: "Conduct comprehensive compliance validation before deployment"
+        compliance_refs:
+          hipaa: ["164.308(a)(8)"]
+          fda: ["premarket"]
+
+  - name: "Verify"
+    description: "Detect threats and validate controls"
+    questions:
+      - id: "ver_01"
+        text: "Are all network connections monitored with intrusion detection/prevention systems (IDS/IPS)?"
+        weight: 9
+        risk_if_no: "HIGH"
+        trust_stack: "Verify"
+        recommendation: "Deploy network-based IDS/IPS with 24/7 monitoring"
+        compliance_refs:
+          hipaa: ["164.312(b)"]
+          nist_csf: ["DE.CM-1"]
+          
+      - id: "ver_02"
+        text: "Are security logs reviewed by SOC analysts at least daily for anomalies?"
+        weight: 9
+        risk_if_no: "HIGH"
+        trust_stack: "Verify"
+        recommendation: "Deploy 24/7 SOC with SIEM/SOAR for real-time threat detection"
+        compliance_refs:
+          hipaa: ["164.308(a)(1)(ii)(D)"]
+          nist_csf: ["DE.AE-3"]
+          
+      - id: "ver_03"
+        text: "Are audit logs correlated across systems to detect multi-stage attacks?"
+        weight: 8
+        risk_if_no: "HIGH"
+        trust_stack: "Verify"
+        recommendation: "Use SIEM to correlate logs from endpoints, network, cloud"
+        compliance_refs:
+          nist_csf: ["DE.AE-2"]
+          
+      - id: "ver_04"
+        text: "Are AI/ML models continuously monitored for performance degradation and drift?"
+        weight: 10
+        risk_if_no: "CRITICAL"
+        trust_stack: "Verify"
+        recommendation: "Deploy MLOps platform with real-time drift detection"
+        compliance_refs:
+          fda: ["postmarket"]
+          nist_csf: ["DE.CM-8"]
+          
+      - id: "ver_05"
+        text: "Is bias testing conducted across demographic groups before AI deployment?"
+        weight: 10
+        risk_if_no: "CRITICAL"
+        trust_stack: "Verify"
+        recommendation: "Perform algorithmic fairness audits; ensure no disparate impact"
+        compliance_refs:
+          fda: ["premarket"]
+          
+      - id: "ver_06"
+        text: "Is adversarial robustness testing performed to detect AI model vulnerabilities?"
+        weight: 8
+        risk_if_no: "HIGH"
+        trust_stack: "Verify"
+        recommendation: "Test models against adversarial examples and data poisoning"
+        compliance_refs:
+          fda: ["premarket"]
+          
+      - id: "ver_07"
+        text: "Is a healthcare-specific incident response plan documented and tested quarterly?"
+        weight: 10
+        risk_if_no: "CRITICAL"
+        trust_stack: "Verify"
+        recommendation: "Include patient safety protocols and regulatory notifications"
+        compliance_refs:
+          hipaa: ["164.308(a)(6)"]
+          nist_csf: ["RS.CO-1"]
+          
+      - id: "ver_08"
+        text: "Are incident response drills (tabletop exercises) conducted at least semi-annually?"
+        weight: 8
+        risk_if_no: "HIGH"
+        trust_stack: "Verify"
+        recommendation: "Run realistic scenarios; document lessons learned"
+        compliance_refs:
+          hipaa: ["164.308(a)(2)"]
+          nist_csf: ["RS.CO-3"]
+          
+      - id: "ver_09"
+        text: "Are data integrity checks (checksums, hashes) verified at each transfer point?"
+        weight: 8
+        risk_if_no: "HIGH"
+        trust_stack: "Verify"
+        recommendation: "Implement SHA-256 checksums for all data transfers"
+        compliance_refs:
+          hipaa: ["164.312(c)(1)"]
+          gxp: ["data integrity"]
+          
+      - id: "ver_10"
+        text: "Are medical device suppliers required to provide vulnerability disclosure policies?"
+        weight: 8
+        risk_if_no: "HIGH"
+        trust_stack: "Verify"
+        recommendation: "Mandate coordinated vulnerability disclosure programs"
+        compliance_refs:
+          fda: ["postmarket"]
+
+  - name: "Prove"
+    description: "Demonstrate compliance with evidence"
+    questions:
+      - id: "prv_01"
+        text: "Are all PHI access events logged with user, timestamp, and data accessed?"
+        weight: 10
+        risk_if_no: "CRITICAL"
+        trust_stack: "Prove"
+        recommendation: "Implement comprehensive audit logging capturing all PHI access"
+        compliance_refs:
+          hipaa: ["164.312(b)"]
+          gxp: ["audit trail"]
+          
+      - id: "prv_02"
+        text: "Are audit logs stored in immutable/tamper-proof storage (blockchain, WORM)?"
+        weight: 9
+        risk_if_no: "HIGH"
+        trust_stack: "Prove"
+        recommendation: "Use WORM storage or distributed ledger for audit logs"
+        compliance_refs:
+          hipaa: ["164.312(b)"]
+          gxp: ["ALCOA+"]
+          
+      - id: "prv_03"
+        text: "Is log retention maintained for at least 6 years to meet HIPAA requirements?"
+        weight: 8
+        risk_if_no: "HIGH"
+        trust_stack: "Prove"
+        recommendation: "Archive logs to cold storage with 6+ year retention"
+        compliance_refs:
+          hipaa: ["164.316(b)(2)"]
+          gxp: ["record retention"]
+          
+      - id: "prv_04"
+        text: "Is data lineage tracked from source to destination with cryptographic proof?"
+        weight: 9
+        risk_if_no: "HIGH"
+        trust_stack: "Prove"
+        recommendation: "Implement data provenance tracking with hash chains"
+        compliance_refs:
+          gxp: ["ALCOA+", "data integrity"]
+          fda: ["premarket"]
+          
+      - id: "prv_05"
+        text: "Are all data modifications tracked with user attribution and timestamps (ALCOA+)?"
+        weight: 10
+        risk_if_no: "CRITICAL"
+        trust_stack: "Prove"
+        recommendation: "Enforce ALCOA+ principles for all GxP data"
+        compliance_refs:
+          gxp: ["ALCOA+"]
+          fda: ["premarket", "postmarket"]
+          
+      - id: "prv_06"
+        text: "Is there mandatory human-in-the-loop (HITL) review for AI-driven clinical decisions?"
+        weight: 10
+        risk_if_no: "CRITICAL"
+        trust_stack: "Prove"
+        recommendation: "Require licensed clinician review for all AI-generated decisions"
+        compliance_refs:
+          fda: ["premarket", "postmarket"]
+          
+      - id: "prv_07"
+        text: "Is explainability/interpretability provided for AI decisions (XAI techniques)?"
+        weight: 9
+        risk_if_no: "HIGH"
+        trust_stack: "Prove"
+        recommendation: "Implement SHAP, LIME, or attention visualization"
+        compliance_refs:
+          fda: ["premarket", "postmarket"]
+          
+      - id: "prv_08"
+        text: "Are AI training datasets documented with source, quality metrics, and bias analysis?"
+        weight: 10
+        risk_if_no: "CRITICAL"
+        trust_stack: "Prove"
+        recommendation: "Maintain dataset cards documenting provenance and limitations"
+        compliance_refs:
+          fda: ["premarket"]
+          gxp: ["data integrity"]
+          
+      - id: "prv_09"
+        text: "Are AI model versions tracked with cryptographic signatures for reproducibility?"
+        weight: 8
+        risk_if_no: "HIGH"
+        trust_stack: "Prove"
+        recommendation: "Use ML model registry with SHA-256 hashes"
+        compliance_refs:
+          fda: ["premarket", "postmarket"]
+          gxp: ["validation"]
+          
+      - id: "prv_10"
+        text: "Are postmarket cybersecurity updates delivered within 30 days of critical vulnerabilities?"
+        weight: 10
+        risk_if_no: "CRITICAL"
+        trust_stack: "Prove"
+        recommendation: "Establish patching SLAs; issue MedWatch reports for exploited vulnerabilities"
+        compliance_refs:
+          fda: ["postmarket"]
+
