@@ -29,7 +29,7 @@ domains:
         risk_if_no: "CRITICAL"
         recommendation: "Deploy MFA across all OT device access points immediately to prevent credential-based attacks"
         compliance_refs:
-          hipaa: ["164.312(a)(2)(i)"]
+          hipaa: ["164.312(d)"]
           nist_csf: ["PR.AC-7"]
           
       - id: "dev_04"
@@ -47,7 +47,7 @@ domains:
         text: "Is patient data encrypted at rest and in transit?"
         weight: 10
         risk_if_no: "CRITICAL"
-        recommendation: "Implement encryption for all patient data storage and transmission using FIPS 140-2 validated cryptographic modules"
+        recommendation: "Implement encryption for all patient data storage and transmission using FIPS 140-3 validated cryptographic modules (FIPS 140-2 modules only where already in place)"
         compliance_refs:
           hipaa: ["164.312(a)(2)(iv)", "164.312(e)(1)"]
           nist_csf: ["PR.DS-1", "PR.DS-2"]
@@ -81,7 +81,6 @@ domains:
         recommendation: "Implement mandatory human review and approval workflows for all AI-generated clinical decisions"
         compliance_refs:
           fda: ["premarket", "postmarket"]
-          nist_csf: ["PR.IP-12"]
           
       - id: "ai_02"
         text: "Do you actively monitor and track AI model drift?"
@@ -90,7 +89,6 @@ domains:
         recommendation: "Deploy continuous model performance monitoring and establish thresholds for retraining or deactivation"
         compliance_refs:
           fda: ["postmarket"]
-          nist_csf: ["DE.CM-8"]
           
       - id: "ai_03"
         text: "Are AI models validated against HIPAA/FDA compliance requirements?"

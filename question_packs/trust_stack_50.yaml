@@ -1,5 +1,5 @@
 name: "Trust Stack Assessment (50 Questions)"
-description: "Healthcare cybersecurity maturity mapped to the HealthSec Trust Stack: Secure, Control, Comply, Verify, Prove"
+description: "Healthcare cybersecurity questions grouped as Secure, Control, Comply, Verify, Prove"
 version: "2.0"
 trust_stack_framework: true
 domains:
@@ -17,11 +17,11 @@ domains:
           nist_csf: ["PR.AC-5"]
           
       - id: "sec_02"
-        text: "Is PHI/ePHI encrypted at rest using FIPS 140-2 validated cryptographic modules?"
+        text: "Is PHI/ePHI encrypted at rest using FIPS 140-3 validated cryptographic modules (or FIPS 140-2 modules already in place)?"
         weight: 10
         risk_if_no: "CRITICAL"
         trust_stack: "Secure"
-        recommendation: "Deploy full-disk encryption or database-level encryption with FIPS 140-2 Level 2+ modules"
+        recommendation: "Deploy full-disk or database-level encryption with FIPS 140-3 validated modules"
         compliance_refs:
           hipaa: ["164.312(a)(2)(iv)"]
           nist_csf: ["PR.DS-1"]
@@ -54,7 +54,7 @@ domains:
         recommendation: "Upgrade to WPA3-Enterprise with 802.1X authentication"
         compliance_refs:
           hipaa: ["164.312(e)(1)"]
-          nist_csf: ["PR.AC-3"]
+          nist_csf: ["PR.AC-5"]
           
       - id: "sec_06"
         text: "Is Zero Trust Network Access (ZTNA) implemented for remote access to clinical systems?"
@@ -63,7 +63,7 @@ domains:
         trust_stack: "Secure"
         recommendation: "Replace VPNs with ZTNA requiring continuous authentication"
         compliance_refs:
-          hipaa: ["164.312(a)(2)(i)"]
+          hipaa: ["164.312(d)"]
           nist_csf: ["PR.AC-7"]
           
       - id: "sec_07"
@@ -101,7 +101,7 @@ domains:
         weight: 9
         risk_if_no: "HIGH"
         trust_stack: "Secure"
-        recommendation: "Use FIPS 140-2 Level 3 HSM or cloud KMS with role separation"
+        recommendation: "Use a FIPS 140-3 Level 3 HSM or a cloud KMS with role separation"
         compliance_refs:
           hipaa: ["164.312(a)(2)(iv)"]
           nist_csf: ["PR.DS-1"]
@@ -116,7 +116,7 @@ domains:
         trust_stack: "Control"
         recommendation: "Deploy phishing-resistant MFA (FIDO2, PIV cards) for all PHI access"
         compliance_refs:
-          hipaa: ["164.312(a)(2)(i)"]
+          hipaa: ["164.312(d)"]
           nist_csf: ["PR.AC-7"]
           
       - id: "ctl_02"
@@ -156,7 +156,7 @@ domains:
         trust_stack: "Control"
         recommendation: "Automate quarterly access certification with auto-revocation"
         compliance_refs:
-          hipaa: ["164.308(a)(3)(ii)(C)"]
+          hipaa: ["164.308(a)(4)(ii)(C)"]
           nist_csf: ["PR.AC-4"]
           
       - id: "ctl_06"
@@ -206,14 +206,13 @@ domains:
         trust_stack: "Control"
         recommendation: "Use third-party risk platforms and review SOC 2 reports annually"
         compliance_refs:
-          hipaa: ["164.308(b)(3)"]
           nist_csf: ["ID.SC-4"]
 
   - name: "Comply"
     description: "Meet regulatory and policy requirements"
     questions:
       - id: "cmp_01"
-        text: "Is a comprehensive risk assessment conducted at least annually per HIPAA Security Rule?"
+        text: "Is a risk analysis conducted at least annually and after significant changes? (HIPAA requires the analysis; it sets no frequency.)"
         weight: 10
         risk_if_no: "CRITICAL"
         trust_stack: "Comply"
@@ -231,7 +230,7 @@ domains:
           hipaa: ["164.308(b)(1)", "164.314(a)"]
           
       - id: "cmp_03"
-        text: "Is HIPAA Security Awareness training provided to all workforce members annually?"
+        text: "Is security awareness training given to all workforce members at least annually? (HIPAA requires the training; it sets no frequency.)"
         weight: 9
         risk_if_no: "HIGH"
         trust_stack: "Comply"
@@ -240,7 +239,7 @@ domains:
           hipaa: ["164.308(a)(5)"]
           
       - id: "cmp_04"
-        text: "Are Breach Notification procedures documented and tested for 60-day HHS reporting?"
+        text: "Are breach notification procedures documented and tested against HIPAA's deadlines (individuals within 60 days of discovery; HHS at the same time for 500 or more people, otherwise within 60 days after year end)?"
         weight: 9
         risk_if_no: "HIGH"
         trust_stack: "Comply"
@@ -258,11 +257,11 @@ domains:
           hipaa: ["164.308(a)(2)"]
           
       - id: "cmp_06"
-        text: "Is cybersecurity documentation maintained per FDA premarket guidance (2014/2023)?"
+        text: "Is cybersecurity documentation maintained per FDA's premarket cybersecurity guidance (February 3, 2026)?"
         weight: 10
         risk_if_no: "CRITICAL"
         trust_stack: "Comply"
-        recommendation: "Prepare CBOM, threat model, and security architecture per FDA guidance"
+        recommendation: "Prepare the SBOM, threat model and security architecture the FDA guidance calls for"
         compliance_refs:
           fda: ["premarket"]
           
@@ -344,7 +343,6 @@ domains:
         recommendation: "Deploy MLOps platform with real-time drift detection"
         compliance_refs:
           fda: ["postmarket"]
-          nist_csf: ["DE.CM-8"]
           
       - id: "ver_05"
         text: "Is bias testing conducted across demographic groups before AI deployment?"
@@ -381,8 +379,8 @@ domains:
         trust_stack: "Verify"
         recommendation: "Run realistic scenarios; document lessons learned"
         compliance_refs:
-          hipaa: ["164.308(a)(2)"]
-          nist_csf: ["RS.CO-3"]
+          hipaa: ["164.308(a)(7)(ii)(D)"]
+          nist_csf: ["PR.IP-10"]
           
       - id: "ver_09"
         text: "Are data integrity checks (checksums, hashes) verified at each transfer point?"
@@ -427,7 +425,7 @@ domains:
           gxp: ["ALCOA+"]
           
       - id: "prv_03"
-        text: "Is log retention maintained for at least 6 years to meet HIPAA requirements?"
+        text: "Are audit logs retained for at least six years, the period HIPAA sets for its required documentation (45 CFR 164.316(b)(2)(i))?"
         weight: 8
         risk_if_no: "HIGH"
         trust_stack: "Prove"
@@ -495,11 +493,11 @@ domains:
           gxp: ["validation"]
           
       - id: "prv_10"
-        text: "Are postmarket cybersecurity updates delivered within 30 days of critical vulnerabilities?"
+        text: "Are customers notified within 30 days of an exploitable vulnerability and given a validated fix within 60 days, per FDA's postmarket cybersecurity guidance?"
         weight: 10
         risk_if_no: "CRITICAL"
         trust_stack: "Prove"
-        recommendation: "Establish patching SLAs; issue MedWatch reports for exploited vulnerabilities"
+        recommendation: "Set patching timelines (a 30-day notice with interim controls, a 60-day validated fix) and follow FDA's postmarket guidance on reporting"
         compliance_refs:
           fda: ["postmarket"]
 

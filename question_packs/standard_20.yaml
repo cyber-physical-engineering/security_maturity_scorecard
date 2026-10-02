@@ -1,5 +1,5 @@
-name: "Standard Assessment (20 Questions)"
-description: "Comprehensive 20-question assessment covering all major security domains"
+name: "Standard Assessment (21 Questions)"
+description: "21-question assessment across four security domains"
 version: "1.0"
 domains:
   - name: "Device Security"
@@ -27,7 +27,7 @@ domains:
         risk_if_no: "CRITICAL"
         recommendation: "Deploy MFA across all OT device access points immediately"
         compliance_refs:
-          hipaa: ["164.312(a)(2)(i)"]
+          hipaa: ["164.312(d)"]
           
       - id: "dev_04"
         text: "Are device inventories automatically tracked and updated?"
@@ -61,7 +61,7 @@ domains:
         text: "Is patient data encrypted at rest and in transit?"
         weight: 10
         risk_if_no: "CRITICAL"
-        recommendation: "Implement encryption for all patient data using FIPS 140-2 validated modules"
+        recommendation: "Implement encryption for all patient data using FIPS 140-3 validated modules"
         compliance_refs:
           hipaa: ["164.312(a)(2)(iv)", "164.312(e)(1)"]
           
@@ -187,6 +187,6 @@ domains:
         risk_if_no: "MEDIUM"
         recommendation: "Schedule regular tabletop exercises and simulations for breach scenarios"
         compliance_refs:
-          hipaa: ["164.308(a)(2)"]
-          nist_csf: ["RS.CO-3"]
+          hipaa: ["164.308(a)(7)(ii)(D)"]
+          nist_csf: ["PR.IP-10"]
 
