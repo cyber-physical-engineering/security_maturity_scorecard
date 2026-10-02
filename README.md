@@ -4,6 +4,8 @@ A Streamlit questionnaire that scores answers to healthcare cybersecurity questi
 
 **Status: prototype.** 14 tests pass (13 through Streamlit's AppTest and one on the report function), and the app starts headless (October 2, 2026; Python 3.12.15, Apple Silicon Mac).
 
+[![CI](https://github.com/cyber-physical-engineering/security_maturity_scorecard/actions/workflows/ci.yml/badge.svg)](https://github.com/cyber-physical-engineering/security_maturity_scorecard/actions/workflows/ci.yml)
+
 James Thornton set the architecture and requirements. The code was written with AI-assisted development in late 2025. The tests and checks were re-run in October 2026.
 
 ## What it does
