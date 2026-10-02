@@ -1,222 +1,84 @@
-# 🏥 HealthSec Maturity Score Calculator
+# Security Maturity Scorecard
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
-[![Streamlit](https://img.shields.io/badge/Streamlit-1.29.0-FF4B4B.svg)](https://streamlit.io)
+A Streamlit questionnaire that scores answers to healthcare cybersecurity questions stored in YAML packs. The score is the share of weighted controls answered Yes. It is a self-assessment, not a measured maturity level.
 
-An open-source cybersecurity maturity assessment tool designed specifically for healthcare organizations, life sciences companies, and the broader health ecosystem.
+**Status: prototype.** 14 tests pass (13 through Streamlit's AppTest and one on the report function), and the app starts headless (October 2, 2026; Python 3.12.15, Apple Silicon Mac).
 
-**Developed by Big Data Plumbing (https://github.com/bigdataplumbing) to help organizations assess their security posture against critical healthcare compliance frameworks.
+James Thornton set the architecture and requirements. The code was written with AI-assisted development in late 2025. The tests and checks were re-run in October 2026.
 
----
+## What it does
 
-## 🎯 Purpose
+- Loads every YAML file in `question_packs/` and shows each question as a Yes, No or N/A radio button in the sidebar. Every question starts as N/A.
+- Scores the answers as a weighted percentage: the weights of the questions answered Yes, divided by the weights of the questions not marked N/A, times 100. Nothing is scored until at least one question is answered Yes or No.
+- Draws a radar chart of per-domain percentages. A domain with only N/A answers reads "not scored".
+- Lists up to five questions answered No, ordered by the pack's risk label (CRITICAL, HIGH, MEDIUM) and then by weight, each with the pack's recommendation.
+- Downloads a Markdown report with up to ten gaps, each gap's recommendation and stored references, and a 30, 60 and 90-day checklist built from the gaps.
 
-The HealthSec Maturity Score Calculator helps Hospital CIOs, IT Directors, and OT Managers evaluate their organization's cybersecurity posture across three critical domains:
+Five packs ship:
 
-- **Device Security**: OT devices, firmware integrity, MFA, and device tracking
-- **Data Integrity**: Encryption, audit logging, backup strategies
-- **AI Governance**: Human oversight, model drift monitoring, FDA/HIPAA compliance
+| File | Questions | Domains |
+|---|---|---|
+| `quick_10.yaml` | 10 | 3 |
+| `hipaa_15.yaml` | 15 | 3 |
+| `standard_20.yaml` | 21 | 4 |
+| `trust_stack_50.yaml` | 50 | 5 (Secure, Control, Comply, Verify, Prove) |
+| `enterprise_50.yaml` | 53 | 11 |
 
-## ⚡ Features
+Weights are set in the YAML by the pack's author; the shipped packs use 6 to 10. The score bands are 0 to 49 CRITICAL RISK, 50 to 69 HIGH RISK, 70 to 84 MODERATE RISK, and 85 to 100 ROBUST POSTURE.
 
-### Core Capabilities
-- ✅ **Multiple Question Packs**: Choose from Quick (10Q), Standard (20Q), or HIPAA Focus (15Q)
-- 📊 **Weighted Scoring System**: Questions weighted by impact (1-10 points)
-- 📈 **Visual Analytics**: Interactive radar chart showing strengths across domains
-- 🎯 **Top Risks Dashboard**: Automatically identifies and prioritizes your biggest gaps
-- 💡 **Actionable Recommendations**: Specific remediation steps for each control gap
-- 📥 **Downloadable Reports**: Generate Markdown reports for board presentations
-- 🎨 **Dark Mode Interface**: Professional black/red/white aesthetic
-- 🌐 **Browser-Based**: No installation required for end users
-- 🔓 **100% Open Source**: Free to use, modify, and contribute
+## Quick start
 
-### Advanced Features (v2.0+)
-- **3-State Answers**: Yes/No/N/A support with smart scoring
-- **Compliance Mapping**: Built-in references to HIPAA, NIST CSF, FDA, GxP
-- **Plugin Architecture**: Add custom question packs via YAML (no coding required)
-- **Risk Prioritization**: CRITICAL/HIGH/MEDIUM/LOW classification
-- **Extensible Framework**: Ready for benchmarking and historical tracking
-
----
-
-## 🚀 Quick Start
-
-### Prerequisites
-
-- Python 3.8 or higher
-- pip (Python package manager)
-
-### Installation
-
-1. **Clone this repository:**
+Python 3.10 or later (tested on 3.12).
 
 ```bash
-git clone https://github.com/bigdataplumbing/healthsec-maturity-scorecard.git
-cd healthsec-maturity-scorecard
-```
-
-2. **Install dependencies:**
-
-```bash
+git clone https://github.com/cyber-physical-engineering/security_maturity_scorecard.git
+cd security_maturity_scorecard
 pip install -r requirements.txt
-```
-
-### Running the App
-
-```bash
 streamlit run maturity_app.py
 ```
 
-The app will automatically open in your default browser at `http://localhost:8501`
+The app opens at http://localhost:8501.
 
----
+Run the tests:
 
-## 📊 How It Works
-
-### Scoring System
-
-- Each "Yes" answer = 10 points
-- Total Score = Sum of all answers (0-100)
-- Domain Scores = Calculated separately for each category
-
-### Risk Levels
-
-| Score Range | Risk Level | Interpretation |
-|-------------|------------|----------------|
-| 0-49 | **CRITICAL RISK** | Immediate remediation required |
-| 50-69 | **HIGH RISK** | Significant improvements needed |
-| 70-84 | **MODERATE RISK** | Good posture with room for improvement |
-| 85-100 | **ROBUST POSTURE** | Strong security maturity |
-
----
-
-## 🏗️ Technical Architecture
-
-- **Frontend**: Streamlit (Python web framework)
-- **Data Handling**: Pandas
-- **Visualization**: Plotly (interactive radar charts)
-- **Deployment**: Can be deployed to Streamlit Cloud, AWS, Azure, or on-premises
-
----
-
-## 🎨 Customization
-
-### Adding Questions
-
-Edit the `questions` dictionary in `maturity_app.py`:
-
-```python
-questions = {
-    "Your Domain": [
-        "Your question here?",
-        "Another question?"
-    ]
-}
+```bash
+pip install pytest
+pytest -q
 ```
 
-### Adjusting Scoring Weights
+## Writing a pack
 
-Modify the scoring logic to weight certain domains more heavily:
+A pack is a YAML file in `question_packs/` with the same fields as the shipped packs. `weight` defaults to 5 if left out; `description` and `version` have defaults too. This example loads and scores:
 
-```python
-# Example: Double weight for Data Integrity
-if "Data Integrity" in domain:
-    domain_score += 20  # Instead of 10
+```yaml
+name: "Your Custom Assessment"
+description: "Description here"
+version: "1.0"
+domains:
+  - name: "Security Domain"
+    questions:
+      - id: "custom_01"
+        text: "Your question here?"
+        weight: 8
+        risk_if_no: "HIGH"
+        recommendation: "What to do if answer is No"
+        compliance_refs:
+          hipaa: ["164.308(a)(1)"]
+          nist_csf: ["PR.AC-1"]
 ```
 
-### Changing Colors
+## About the references
 
-Update the CSS section at the top of `maturity_app.py` to match your brand:
+Each question lists HIPAA Security Rule paragraphs and NIST Cybersecurity Framework subcategory IDs. The IDs are CSF 1.1; eleven of them sit in categories CSF 2.0 removed. FDA items are tagged "premarket" or "postmarket", and GxP items are keywords. The references point to related sections of those documents. They are a starting point for a reviewer, not a compliance determination. The references appear in the downloaded report, not on screen.
 
-```python
-st.markdown("""
-    <style>
-    h1, h2, h3 {
-        color: #YOUR_COLOR;  # Change primary color
-    }
-    </style>
-""", unsafe_allow_html=True)
-```
+## Limits
 
----
+- The score is the share of weighted Yes answers. It is not a measured maturity level and not a risk measurement.
+- Weights and risk labels are the pack author's judgment.
+- The citations point to related sections; about a quarter of them are loose fits, and none makes a finding.
+- One pack at a time; there is no history, benchmark or comparison.
+- The app runs on your machine. There is no hosted instance.
 
-## 🔒 Compliance & Standards
+## License
 
-This tool is designed to align with:
-
-- **HIPAA** (Health Insurance Portability and Accountability Act)
-- **GxP** (Good Practice Quality Guidelines)
-- **FDA** Cybersecurity Guidelines for Medical Devices
-- **NIST Cybersecurity Framework**
-- **Zero Trust Architecture** principles
-
----
-
-## 📈 Use Cases
-
-1. **Self-Assessment**: Organizations can evaluate their current security posture
-2. **Gap Analysis**: Identify specific areas needing improvement
-3. **Board Reporting**: Generate visual reports for executive stakeholders
-4. **Vendor Assessment**: Evaluate security maturity of healthcare partners
-5. **Sales Tool**: Demonstrate the value of security solutions to prospects
-6. **Compliance Prep**: Prepare for HIPAA, FDA, and GxP audits
-
----
-
-## 🤝 Contributing
-
-We welcome contributions from the community! Here's how you can help:
-
-1. **Fork the repository**
-2. **Create a feature branch** (`git checkout -b feature/AmazingFeature`)
-3. **Commit your changes** (`git commit -m 'Add some AmazingFeature'`)
-4. **Push to the branch** (`git push origin feature/AmazingFeature`)
-5. **Open a Pull Request**
-
-### Contribution Ideas
-
-- Add more questions for deeper assessments
-- Create different questionnaire versions (quick, standard, comprehensive)
-- Add export functionality (PDF reports)
-- Implement multi-language support
-- Create benchmarking features
-- Add historical tracking
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 🌟 About HealthSec Alliance
-
-The HealthSec Alliance is dedicated to securing healthcare data, ensuring trust in AI systems, and maintaining compliance across the health ecosystem. We provide open-source tools, frameworks, and education to help organizations protect patient data and maintain regulatory compliance.
-
-**GitHub Organization**: [bigdataplumbing](https://github.com/bigdataplumbing)
-
----
-
-## 📞 Support & Contact
-
-- **Issues**: Report bugs or request features via [GitHub Issues](https://github.com/bigdataplumbing/healthsec-maturity-scorecard/issues)
-- **Discussions**: Join the conversation in [GitHub Discussions](https://github.com/bigdataplumbing/healthsec-maturity-scorecard/discussions)
-- **Email**: info@healthsecalliance.com
-
----
-
-## 🙏 Acknowledgments
-
-- Built with [Streamlit](https://streamlit.io)
-- Visualization powered by [Plotly](https://plotly.com)
-- Inspired by healthcare security frameworks from NIST, FDA, and HIPAA
-
----
-
-**Star ⭐ this repo if you find it helpful!**
-
-**Version**: 2.0.0  
-**Last Updated**: December 30, 2025
-
+MIT. See [LICENSE](LICENSE).
