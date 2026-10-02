@@ -13,7 +13,7 @@ domains:
           hipaa: ["164.308(a)(2)"]
           
       - id: "admin_02"
-        text: "Are workforce members trained on HIPAA Security Rule annually?"
+        text: "Are workforce members trained on the HIPAA Security Rule at least annually? (The rule sets no frequency; annual is common practice.)"
         weight: 8
         risk_if_no: "HIGH"
         recommendation: "Implement annual HIPAA training program with completion tracking and testing"
